@@ -1,16 +1,15 @@
-import redis
-from flask import Flask, request, render_template, jsonify, flash
+from flask import Flask, request, render_template, flash
 from flask_apscheduler import APScheduler
 import datetime
 import requests
 
+from secure import r
 from utils import clean_data, get_name
 
 app = Flask(__name__)
 app.secret_key = 'zxjjjsama'
 scheduler = APScheduler(app=app)
 scheduler.start()
-r = redis.Redis(host='121.36.94.97', port=6379, decode_responses=True)
 
 
 @scheduler.task(trigger='cron', id='test_job', hour='*')
