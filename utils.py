@@ -23,4 +23,7 @@ def clean_data(s):
 def get_name(s):
     data_raw = re.search('.* --data \'(.+?)\'', s).group(1)
     data = {foo1.split('=')[0]: urllib.parse.unquote(foo1.split('=')[1]) for foo1 in data_raw.split('&')}
-    return data['XM_407868']
+    for k, v in data.items():
+        if k.startswith('XM'):
+            return v
+

@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container" style="width: 50%">
-    <h1 style="text-align: center">泛用性自动打卡机</h1>
+    <h1 style="text-align: center">泛用性自动打卡机 version 1.0</h1>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category,message in messages %}
@@ -42,28 +42,47 @@
     </form>
 
     <hr>
-    <h2>成功日志</h2>
-    {% for k,v in success_log.items() %}
-        <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
-            <div class="card-header">Success</div>
-            <div class="card-body">
-                <h5 class="card-title">{{ v }}</h5>
-                <p class="card-text">{{ k }}</p>
+    <h2>打卡记录</h2>
+    <div class="card-deck">
+        {% for k,v in success_log.items() %}
+            <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
+                <div class="card-header">Success</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ v }}</h5>
+                    <p class="card-text">{{ k }}</p>
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
 
-    <hr>
-    <h3>失败日志</h3>
-    {% for k,v in fail_log.items() %}
-        <div class="card text-white bg-error mb-3" style="max-width: 20rem;">
-            <div class="card-header">Fail</div>
-            <div class="card-body">
-                <h5 class="card-title">{{ v }}</h5>
-                <p class="card-text">{{ k }}</p>
+        {% for k,v in fail_log.items() %}
+            <div class="card text-white bg-error mb-3" style="max-width: 20rem;">
+                <div class="card-header">Fail</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ v }}</h5>
+                    <p class="card-text">{{ k }}</p>
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
+    <hr>
+    <h2>目前录入信息</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">执行时间</th>
+            <th scope="col">执行用户</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for k,v in info.items() %}
+            <tr>
+                <th scope="row">{{ k }}:00</th>
+                <td>{{ v }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 
     <footer id="footer">
         <p style="float: right">©Harumonia,2020</p>

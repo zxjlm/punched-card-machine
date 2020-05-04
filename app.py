@@ -18,27 +18,28 @@ def test_job():
     for foo in r.hvals(hour):
         url, headers, cookies, data = clean_data(foo)
         response = requests.post(url, headers=headers, cookies=cookies, data=data)
+        name = get_name(foo)
         if response.json()['result']:
-            r.hset('success', datetime.datetime.now().__str__()[:13].replace(' ', '-'), data['XM_407868'])
+            r.hset('success', datetime.datetime.now().__str__()[:13].replace(' ', '-'), name)
         else:
-            r.hset('fail', datetime.datetime.now().__str__()[:13].replace(' ', '-'), data['XM_407868'])
-        print(data['XM_407868'], response.json()['result'])
+            r.hset('fail', datetime.datetime.now().__str__()[:13].replace(' ', '-'), name)
+        # print(data['XM_407868'], response.json()['result'])
 
 
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
     if request.method == 'POST':
         form = request.form
-        name = get_name(form['curl'])
-        r.hset(form['time'], name, form['curl'])
-        flash('add success', 'success')
-    return render_template('index.html', success_log=r.hgetall('success'), fail_log=r.hgetall('fail'))
+        if form['curl'].startswith('curl') and '|' not in form['curl']:
+            name = get_name(form['curl'])
+            r.hset(form['time'], name, form['curl'])
+            flash('add success', 'success')
+        else:
+            flash('别乱输东西好吧= =', 'danger')
 
-
-@app.route('/redis_test')
-def redis_test():
-    r.set('name', '张鑫剑111')  # 设置 name 对应的值
-    return 'succ'
+    dic = {foo: ','.join(list(r.hgetall(foo).keys())) for foo in range(0, 24) if
+           ','.join(list(r.hgetall(foo).keys())) != ''}
+    return render_template('index.html', success_log=r.hgetall('success'), fail_log=r.hgetall('fail'), info=dic)
 
 
 if __name__ == '__main__':
