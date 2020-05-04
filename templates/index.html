@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>泛用性自动打卡机</title>
+    <link href="{{ url_for('static', filename='css/bootstrap-4.4.1.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-4.4.1.js') }}"></script>
+</head>
+<body>
+<div class="container" style="width: 50%">
+    <h1 style="text-align: center">泛用性自动打卡机</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category,message in messages %}
+                <div class="alert alert-{{ category }}">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h2>录入命令</h2>
+    <form method="post" action="/" role="form">
+        <div class="form-group">
+            <label for="exampleInputEmail1">curl cmd</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" name="curl" aria-describedby="emailHelp"
+                   placeholder="enter curl cmd">
+            <small id="emailHelp" class="form-text text-muted">example :
+                curl 'https://pdc.njucm.edu.cn/pdc/formDesignApi/dataFormSave?wid=****&userId=****' -H 'User-Agent:
+                Mozill...</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">reporting time</label>
+            <input type="number" class="form-control" id="exampleInputPassword1" name="time" placeholder="Password"
+                   min="0" max="23">
+            <small id="dailyHelp" class="form-text text-muted">example : 0,1,2,3,4....,23</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <hr>
+    <h2>成功日志</h2>
+    {% for k,v in success_log.items() %}
+        <div class="card text-white bg-success mb-3" style="max-width: 20rem;">
+            <div class="card-header">Success</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ v }}</h5>
+                <p class="card-text">{{ k }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
+    <hr>
+    <h3>失败日志</h3>
+    {% for k,v in fail_log.items() %}
+        <div class="card text-white bg-error mb-3" style="max-width: 20rem;">
+            <div class="card-header">Fail</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ v }}</h5>
+                <p class="card-text">{{ k }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
+    <footer id="footer">
+        <p style="float: right">©Harumonia,2020</p>
+    </footer>
+</div>
+
+</body>
+</html>
