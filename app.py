@@ -2,14 +2,20 @@ from flask import Flask, request, render_template, flash
 from flask_apscheduler import APScheduler
 import datetime
 import requests
-
-from secure import r
+import redis
+from secure import redis_host, redis_port
+from telegram_info import TelegramHandler
 from utils import clean_data, get_name
 
 app = Flask(__name__)
 app.secret_key = 'zxjjjsama'
 scheduler = APScheduler(app=app)
 scheduler.start()
+
+r = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
+
+# tele = TelegramHandler(r)
+# tele.start_query()
 
 
 @scheduler.task(trigger='cron', id='test_job', hour='*')
