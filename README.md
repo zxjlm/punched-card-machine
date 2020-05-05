@@ -1,6 +1,8 @@
 ## 介绍
 这是一个自动打卡的flask小程序,基于curl命令
 
+[这里记录了开发的思路和一些问题](http://harumonia.top/index.php/archives/225/)
+
 ## 运行
 1. 于文件夹下添加一个secure.py文件,录入redis内容
 
