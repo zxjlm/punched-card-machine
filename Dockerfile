@@ -1,8 +1,8 @@
 FROM python:3.7
-COPY . /Project
-WORKDIR /Project
+WORKDIR /Project/daily_reporter
+COPY . .
 RUN pip install -r requirements.txt -i https://pypi.douban.com/simple
 RUN mkdir -p /logs/gunicorn/
-EXPOSE 5008
-VOLUME "/Users/zxjsama/mylogs/"
+
+
 CMD ["gunicorn", "app:app", "-c", "./gunicorn.conf.py"]

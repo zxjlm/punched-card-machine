@@ -12,7 +12,9 @@ app.secret_key = 'zxjjjsama'
 scheduler = APScheduler(app=app)
 scheduler.start()
 
-r = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
+
+r = redis.Redis(host=redis_host, port=redis_port, password='123456', decode_responses=True)
+
 
 # tele = TelegramHandler(r)
 # tele.start_query()
@@ -46,6 +48,12 @@ def hello_world():
     dic = {foo: ','.join(list(r.hgetall(foo).keys())) for foo in range(0, 24) if
            ','.join(list(r.hgetall(foo).keys())) != ''}
     return render_template('index.html', success_log=r.hgetall('success'), fail_log=r.hgetall('fail'), info=dic)
+
+
+# @app.route('/')
+# def hello():
+#
+#     return str(r.get('hello'))
 
 
 if __name__ == '__main__':

@@ -2,26 +2,28 @@
 __author__ = 'harumonia'
 
 
-import os
+# import os
 # import gevent.monkey
 # gevent.monkey.patch_all()
 
-import multiprocessing
+# import multiprocessing
 
 # debug = True
 # threads = 2
-worker_connections = 200
+# worker_connections = 200
 loglevel = 'info'
 bind = "0.0.0.0:5000"
 pidfile = '/logs/gunicorn/gunicorn.pid'
 accesslog = '/logs/gunicorn/gunicorn_acess.log'
 errorlog = '/logs/gunicorn/gunicorn_error.log'
-daemon = True
+# docker 下不能启动这个
+# daemon = True
 
 # 启动的进程数
-workers = multiprocessing.cpu_count()
+# workers = multiprocessing.cpu_count()
+workers = 1
 worker_class = 'sync'
-x_forwarded_for_header = 'X-FORWARDED-FOR'
+# x_forwarded_for_header = 'X-FORWARDED-FOR'
 
 
 # # gunicorn.conf
