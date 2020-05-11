@@ -4,7 +4,7 @@ import datetime
 import requests
 import redis
 from secure import redis_host, redis_port
-from telegram_info import TelegramHandler
+# from telegram_info import TelegramHandler
 from utils import clean_data, get_name
 
 app = Flask(__name__)
