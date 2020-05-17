@@ -3,17 +3,17 @@ from flask_apscheduler import APScheduler
 import datetime
 import requests
 import redis
-from secure import redis_host, redis_port
+from secure import redis_host, redis_port, redis_password
 # from telegram_info import TelegramHandler
 from utils import clean_data, get_name
 
 app = Flask(__name__)
 app.secret_key = 'zxjjjsama'
+
+r = redis.Redis(host=redis_host, port=redis_port, password=redis_password, decode_responses=True)
+
 scheduler = APScheduler(app=app)
 scheduler.start()
-
-
-r = redis.Redis(host=redis_host, port=redis_port, password='123456', decode_responses=True)
 
 
 # tele = TelegramHandler(r)
@@ -29,6 +29,7 @@ def test_job():
         name = get_name(foo)
         if response.json()['result']:
             r.hset('success', datetime.datetime.now().__str__()[:13].replace(' ', '-'), name)
+
         else:
             r.hset('fail', datetime.datetime.now().__str__()[:13].replace(' ', '-'), name)
         # print(data['XM_407868'], response.json()['result'])
@@ -42,6 +43,7 @@ def hello_world():
             name = get_name(form['curl'])
             r.hset(form['time'], name, form['curl'])
             flash('add success', 'success')
+            app.logger.info('{} record success'.format(name))
         else:
             flash('别乱输东西好吧= =', 'danger')
 
@@ -50,10 +52,10 @@ def hello_world():
     return render_template('index.html', success_log=r.hgetall('success'), fail_log=r.hgetall('fail'), info=dic)
 
 
-# @app.route('/')
-# def hello():
-#
-#     return str(r.get('hello'))
+@app.route('/logging')
+def log_test():
+    app.logger.info('{} record success'.format(r.get('hello')))
+    return 'success'
 
 
 if __name__ == '__main__':
