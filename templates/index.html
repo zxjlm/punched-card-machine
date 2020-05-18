@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container" style="width: 50%">
-    <h1 style="text-align: center">泛用性自动打卡机 version 1.0</h1>
+    <h1 style="text-align: center">泛用性自动打卡机 version 1.1</h1>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category,message in messages %}
@@ -38,7 +38,7 @@
                    min="0" max="23">
             <small id="dailyHelp" class="form-text text-muted">example : 0,1,2,3,4....,23</small>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">提交</button>
     </form>
 
     <hr>
