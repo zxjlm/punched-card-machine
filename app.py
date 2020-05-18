@@ -61,10 +61,9 @@ def hello_world():
     return render_template('index.html', success_log=r.hgetall('success'), fail_log=r.hgetall('fail'), info=dic)
 
 
-@app.route('/logging')
-def log_test():
-    app.logger.info('{} record success'.format(r.get('hello')))
-    return 'success'
+@app.route('/for_user')
+def for_user():
+    return render_template('for_user.html')
 
 
 if __name__ == '__main__':
